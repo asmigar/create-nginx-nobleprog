@@ -15,7 +15,7 @@ AWS Secret Access Key [None]: [Enter your corresponding secret access key here. 
 Default region name [None]: [You can keep it blank. So just press Enter]
 Default output format [None]: [You can keep it blank. So just press Enter]
 ```
-5. Verify your aws creds are configured by running `aws iam list-users`. You should at least see the admin user you created in step 1.
+5. Verify your aws creds are configured by running `aws iam list-users --profile asmigar`. You should at least see the admin user you created in step 1.
 ```bash
 $ aws iam list-users --profile asmigar
 {
@@ -37,16 +37,23 @@ $ aws iam list-users --profile asmigar
 Terraform keeps all the info about the resources in a state file. Rather than keeping it on local disk, we store it on S3 bucket.
 To learn more read the docs [here](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
 
-Run below terraform command to create remote state bucket on your AWS account. 
+1. Run below terraform command to create remote state bucket on your AWS account.
 ```bash
 cd remote_state; terraform init; terraform apply --auto-approve
 ```
+2. The above command will output the s3 bucket name. Copy the s3 bucket name. For example, 
+```bash
+Outputs:
+
+terraform_state_bucket_name = "asmigar-create-nginx-terraform-state-[random-id]"
+```
 
 ## Create Infra
-Run below command to create EC2 instance. This will even output the ssh command to access the instance.
+1. Run below command to create EC2 instance. This will even output the ssh command to access the instance.
 ```bash
 cd infra; terraform init; terraform apply --auto-approve
 ```
+The `terraform init` command will prompt for s3 bucket name. Paste the s3 bucket name you copied while creating remote state.  
 
 ## Report Bug
 To raise issue/bug click [here](https://github.com/asmigar/create-nginx/issues/new).
