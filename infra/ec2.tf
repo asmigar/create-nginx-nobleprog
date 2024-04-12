@@ -71,15 +71,16 @@ resource "aws_key_pair" "this" {
 }
 
 resource "aws_instance" "nginx" {
+  count = 2
   ami           = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 
   tags = {
-    Name = "master"
+    Name = "webserver"
   }
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
-  subnet_id              = aws_subnet.public.id
+  subnet_id              = aws_subnet.public[count.index].id
   key_name               = aws_key_pair.this.key_name
   user_data              = <<-EOT
 		#!/bin/bash
