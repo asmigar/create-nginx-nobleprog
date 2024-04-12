@@ -84,7 +84,8 @@ resource "aws_instance" "nginx" {
   key_name               = aws_key_pair.this.key_name
   user_data              = <<-EOT
 		#!/bin/bash
-		yum install nginx python -y
+		yum install nginx -y
+        sed -i "s/Welcome to nginx\!/Welcome to nginx ${aws_subnet.public[count.index].availability_zone}/" /usr/share/nginx/html/index.html
         systemctl start nginx
 		EOT
 }
