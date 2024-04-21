@@ -2,7 +2,7 @@ resource "terraform_data" "my_ip" {
   triggers_replace = timestamp()
 
   provisioner "local-exec" {
-    command = "curl -4 ifconfig.me > /tmp/my_ip.txt"
+    command => "curl -4 ifconfig.me > /tmp/my_ip.txt"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_key_pair" "this" {
 }
 
 resource "aws_instance" "nginx" {
-  count = 2
+  count = 4
   ami           = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 
