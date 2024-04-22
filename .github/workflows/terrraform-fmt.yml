@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-      - run: pwd;terraform fmt -check -diff
+      - run: cd infra;terraform fmt -check -diff
