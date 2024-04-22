@@ -2,7 +2,7 @@ resource "terraform_data" "my_ip" {
   triggers_replace = timestamp()
 
   provisioner "local-exec" {
-    command => "curl -4 ifconfig.me > /tmp/my_ip.txt"
+    command = "curl -4 ifconfig.me > /tmp/my_ip.txt"
   }
 }
 
