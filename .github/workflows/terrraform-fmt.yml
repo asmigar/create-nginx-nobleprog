@@ -1,4 +1,4 @@
-name: 'check terraform formate'
+name: 'check terraform format&validate'
 
 on:
   push:
@@ -6,9 +6,16 @@ on:
     - main
 
 jobs:
-  check_terraform_fmt:
+  terraform_fmt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
       - run: cd infra;terraform fmt -check -diff
+
+  terraform_validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: cd infra;terraform validate
