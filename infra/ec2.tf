@@ -7,7 +7,7 @@ resource "terraform_data" "my_ip" {
 }
 
 data "local_file" "my-ip" {
-  filename = "/tmp/my_ip.txt"
+  filename   = "/tmp/my_ip.txt"
   depends_on = [terraform_data.my_ip]
 }
 
@@ -25,10 +25,10 @@ resource "aws_security_group" "allow_ssh" {
   }
 
   ingress {
-    description = "lb"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    description     = "lb"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
     security_groups = [aws_security_group.lb_sg.id]
   }
 
@@ -70,7 +70,7 @@ resource "aws_key_pair" "this" {
 }
 
 resource "aws_instance" "nginx" {
-  count = 4
+  count         = 4
   ami           = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 

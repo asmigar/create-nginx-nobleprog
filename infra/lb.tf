@@ -2,20 +2,20 @@ resource "aws_security_group" "lb_sg" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-      description = "open to world"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
+    description      = "open to world"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 
 resource "aws_vpc_security_group_egress_rule" "lb_sg_egress" {
-  security_group_id = aws_security_group.lb_sg.id
-  from_port = 80
-  to_port = 80
-  ip_protocol = "tcp"
+  security_group_id            = aws_security_group.lb_sg.id
+  from_port                    = 80
+  to_port                      = 80
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.allow_ssh.id
 }
 

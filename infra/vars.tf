@@ -5,7 +5,7 @@ variable "vpc_cidr_block" {
 
 variable "public_subnet_cidr_block" {
   type    = list(string)
-  default = ["10.0.1.0/24","10.0.2.0/24"]
+  default = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 
@@ -16,7 +16,7 @@ variable "shh_key_name" {
 }
 
 variable "organisation" {
-  type = string
-  default = "asmigar"
+  type        = string
+  default     = "asmigar"
   description = "org name"
 }
