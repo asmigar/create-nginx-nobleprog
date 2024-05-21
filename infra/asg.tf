@@ -15,7 +15,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up" {
   metric_name         = "CPUUtilization"
   threshold           = "50"
   evaluation_periods  = "2"
-  period              = "10"
+  period              = "120"
   statistic           = "Average"
 
   dimensions = {
