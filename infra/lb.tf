@@ -26,7 +26,7 @@ resource "aws_alb" "nginx_lb" {
   security_groups    = [aws_security_group.lb_sg.id]
   subnets            = [for subnet in aws_subnet.public : subnet.id]
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 }
 
 resource "aws_alb_target_group" "nginx" {
@@ -40,17 +40,6 @@ resource "aws_autoscaling_attachment" "nginx" {
   autoscaling_group_name = aws_autoscaling_group.nginx.id
   lb_target_group_arn    = aws_alb_target_group.nginx.arn
 }
-
-#resource "aws_alb_target_group_attachment" "nginx-tg" {
-#  for_each = {
-#    for key, value in aws_instance.nginx :
-#    key => value
-#  }
-#
-#  target_group_arn = aws_alb_target_group.nginx.arn
-#  target_id        = each.value.id
-#  port             = 80
-#}
 
 resource "aws_alb_listener" "nginx_lb" {
   load_balancer_arn = aws_alb.nginx_lb.arn
