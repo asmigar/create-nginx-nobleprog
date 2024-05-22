@@ -42,7 +42,7 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
 }
 
 resource "aws_dynamodb_table" "terraform_locks" {
-  name         = "create-k8s-state-locks"
+  name         = "create-nginx-state-locks"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
