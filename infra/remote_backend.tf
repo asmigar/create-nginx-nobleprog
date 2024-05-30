@@ -6,5 +6,6 @@ terraform {
     region  = "us-east-1"
     encrypt = true
     profile = "asmigar"
+    dynamodb_table = "create-nginx-state-locks"
   }
 }
