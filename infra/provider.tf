@@ -1,5 +1,5 @@
 locals {
-  project_name = reverse(split("/",path.cwd))[1]
+  project_name = reverse(split("/", path.cwd))[1]
 }
 
 provider "aws" {

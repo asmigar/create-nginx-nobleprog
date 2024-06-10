@@ -24,24 +24,24 @@ resource "aws_cloudwatch_metric_alarm" "scale_up" {
 }
 
 resource "aws_launch_template" "nginx" {
-  name_prefix = "nginx"
-  image_id = "ami-0c101f26f147fa7fd"
+  name_prefix   = "nginx"
+  image_id      = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   key_name               = aws_key_pair.this.key_name
 
-  user_data              = filebase64("${path.module}/setup.sh")
+  user_data = filebase64("${path.module}/setup.sh")
 }
 
 resource "aws_autoscaling_group" "nginx" {
-  name_prefix = "nginx"
-  max_size = 3
-  min_size = 2
+  name_prefix         = "nginx"
+  max_size            = 3
+  min_size            = 2
   vpc_zone_identifier = aws_subnet.public[*].id
 
   launch_template {
-    id = aws_launch_template.nginx.id
+    id      = aws_launch_template.nginx.id
     version = "$Latest"
   }
 

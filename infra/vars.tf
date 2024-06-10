@@ -22,20 +22,20 @@ variable "organisation" {
 }
 
 variable "aws_region" {
-  type = string
-  default = "us-east-1"
+  type        = string
+  default     = "us-east-1"
   description = "AWS region where resources are to be created"
 }
 
 variable "aws_profile" {
-  type = string
-  default = "asmigar"
+  type        = string
+  default     = "asmigar"
   description = "AWS cli profile to be used"
 }
 
 
 variable "env" {
-  type = string
-  default = "dev"
+  type        = string
+  default     = "dev"
   description = "environment e.g. dev|qa|prod"
 }
