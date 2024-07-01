@@ -24,7 +24,7 @@ jobs:
   terraform_plan:
     runs-on: ubuntu-latest
     env:
-      STATE_BUCKET=${{ vars.STATE_BUCKET }}
+      STATE_BUCKET: ${{ vars.STATE_BUCKET }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
