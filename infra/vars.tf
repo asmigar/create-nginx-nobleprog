@@ -21,13 +21,6 @@ variable "aws_region" {
   description = "AWS region where resources are to be created"
 }
 
-variable "aws_profile" {
-  type        = string
-  default     = "asmigar"
-  description = "AWS cli profile to be used"
-}
-
-
 variable "env" {
   type        = string
   default     = "dev"
