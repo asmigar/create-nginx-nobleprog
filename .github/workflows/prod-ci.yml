@@ -2,25 +2,11 @@ name: CI
 
 on:
   push:
-    branches:
-    - main
-    - feature/*
+    tags:
+      - '*'
+
 
 jobs:
-  terraform_fmt:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-      - run: cd infra;terraform fmt -check -diff
-
-  terraform_validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-      - run: cd infra;terraform init -backend=false;terraform validate
-
   terraform_plan:
     runs-on: ubuntu-latest
     permissions:
@@ -37,12 +23,12 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform plan
+      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform workspace select -or-create prod;terraform plan -var="env=prod"
   
 
   terraform_apply:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: prod
     permissions:
       id-token: write
       contents: read
@@ -57,7 +43,6 @@ jobs:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform destroy -auto-approve
-      # - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform apply -auto-approve
+      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform apply -var="env=prod" -auto-approve
   
 
