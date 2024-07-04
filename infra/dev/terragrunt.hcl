@@ -7,5 +7,5 @@ include "root" {
 }
 
 inputs = {
-  env =
+  env = "dev"
 }
