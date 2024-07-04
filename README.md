@@ -34,6 +34,7 @@ $ aws iam list-users --profile asmigar
 }
 ```
 6. Install Terraform's latest version from [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+7. Install Terragrunt's latest version from [here](https://terragrunt.gruntwork.io/docs/getting-started/install/)
 
 ## Create Remote State
 Terraform keeps all the info about the resources in a state file. Rather than keeping it on local disk, we store it on S3 bucket.
@@ -47,15 +48,19 @@ cd remote_state; terraform init; terraform apply --auto-approve
 ```bash
 Outputs:
 
-terraform_state_bucket_name = "asmigar-create-nginx-terraform-state-[random-id]"
+terraform_state_bucket_name = [
+"asmigar-<env1>create-nginx-terraform-state-<aws_account_id>", 
+"asmigar-<env2>create-nginx-terraform-state-[aws_account_id]"
 ```
 
 ## Create Infra
 1. Run below command to create EC2 instance. This will even output the ssh command to access the instance.
 ```bash
-cd infra; terraform init; terraform apply --auto-approve
+cd infra/dev; terragrunt init; terragrunt apply --auto-approve
 ```
-The `terraform init` command will prompt for s3 bucket name. Paste the s3 bucket name you copied while creating remote state.  
+
+## CI/CD
+Github Actions are configured to apply terraform code. You would need to create environments in the GitHub repo and create some secrets needed in workflow `tf-ci.yml
 
 ## Report Bug
 To raise issue/bug click [here](https://github.com/asmigar/create-nginx/issues/new).

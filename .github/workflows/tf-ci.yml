@@ -9,102 +9,116 @@ on:
       - '*'
 
 jobs:
-  terraform_fmt:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-      - run: cd infra;terraform fmt -check -diff
+      - name: Format
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/dev
+          tg_command: fmt -check -diff
 
-  terraform_validate:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-      - run: cd infra;terraform init -backend=false;terraform validate
+      - name: Validate
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/dev
+          tg_command: validate
 
-  terraform_plan:
+  plan:
     needs:
-      - terraform_fmt
-      - terraform_validate
+      - format
+      - validate
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    env:
-      STATE_BUCKET: ${{ vars.STATE_BUCKET }}
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform plan
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/dev
+          tg_command: plan
   
 
-  terraform_apply:
-    needs: terraform_plan
+  apply:
+    needs: plan
     runs-on: ubuntu-latest
     environment: dev
     permissions:
       id-token: write
       contents: read
-    env:
-      STATE_BUCKET: ${{ vars.STATE_BUCKET }}
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform apply -auto-approve
+      - name: Apply
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/dev
+          tg_command: apply -auto-approve
 
-  terraform_plan_prod:
-    if: github.ref_type == 'tag'
+  plan_prod:
+    needs:
+      - format
+      - validate
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    env:
-      STATE_BUCKET: ${{ vars.STATE_BUCKET }}
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: cd infra;terraform init -backend-config="bucket=$STATE_BUCKET";terraform workspace select -or-create prod;terraform plan -var="env=prod"
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/prod
+          tg_command: plan
 
-  terraform_apply_prod:
-    needs: terraform_plan_prod
+
+  apply_prod:
+    needs: plan_prod
     runs-on: ubuntu-latest
     environment: prod
     permissions:
       id-token: write
       contents: read
-    env:
-      STATE_BUCKET: ${{ vars.STATE_BUCKET }}
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           audience: sts.amazonaws.com
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
-      - run: |
-          cd infra;
-          terraform init -backend-config="bucket=$STATE_BUCKET";
-          terraform workspace select -or-create prod;
-          terraform apply -var="env=prod" -auto-approve
-
+      - name: Apply
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: v1.8.5
+          tg_dir: infra/prod
+          tg_command: apply -auto-approve

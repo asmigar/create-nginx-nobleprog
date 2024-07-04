@@ -8,7 +8,7 @@ resource "aws_key_pair" "this" {
   public_key = tls_private_key.this.public_key_openssh
 
   provisioner "local-exec" {
-    command = "mkdir -p ~/.ssh; echo '${tls_private_key.this.private_key_openssh}' > ~/.ssh/${var.ssh_key_name}.pem; chmod 400 ~/.ssh/${self.key_name}.pem"
+    command = "mkdir -p ~/.ssh; echo '${tls_private_key.this.private_key_openssh}' > ~/.ssh/${self.key_name}.pem; chmod 400 ~/.ssh/${self.key_name}.pem"
   }
 
   provisioner "local-exec" {
