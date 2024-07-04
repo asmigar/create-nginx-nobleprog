@@ -29,7 +29,7 @@ provider "aws" {
       Organisation = var.organisation
       Environment  = var.env
       Managed_By   = "Terraform"
-      Project      = reverse(split("/", "${get_terragrunt_dir()}"))[2]
+      Project      = "create-nginx"
     }
   }
 }
