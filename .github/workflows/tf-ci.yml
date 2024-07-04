@@ -91,7 +91,7 @@ jobs:
           tg_command: apply -auto-approve
 
   plan_prod:
-    if: {{ github.ref_type == 'tag' }}
+    if: github.ref_type == 'tag'
     needs:
       - format
       - validate
