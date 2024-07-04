@@ -7,6 +7,9 @@ on:
     - feature/*
     tags:
       - '*'
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   format:
@@ -50,9 +53,6 @@ jobs:
       - format
       - validate
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials
@@ -74,9 +74,6 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     environment: dev
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials
@@ -98,9 +95,6 @@ jobs:
       - format
       - validate
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials
@@ -122,9 +116,6 @@ jobs:
     needs: plan_prod
     runs-on: ubuntu-latest
     environment: prod
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials
