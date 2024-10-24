@@ -9,17 +9,17 @@ A simple terraform project to create an EC2 instance with nginx and python insta
 1. Create an IAM user with Administrator access [here](https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/users)
 2. Create Access key for the above user for CLI access. You will find the option under **Security Credentials** tab on the IAM user console.
 3. Install aws cli on your machine. Steps [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
-4. Run `aws configure --profile asmigar`. It will prompt for the Access Key and Secret Access Key you created in Step 2.
+4. Run `aws configure --profile nobleprog`. It will prompt for the Access Key and Secret Access Key you created in Step 2.
 ```bash
-$ aws configure --profile asmigar
+$ aws configure --profile nobleprog
 AWS Access Key ID [None]: [Enter your access key id here. And then press enter]
 AWS Secret Access Key [None]: [Enter your corresponding secret access key here. And then press enter]
 Default region name [None]: [You can keep it blank. So just press Enter]
 Default output format [None]: [You can keep it blank. So just press Enter]
 ```
-5. Verify your aws creds are configured by running `aws iam list-users --profile asmigar`. You should at least see the admin user you created in step 1.
+5. Verify your aws creds are configured by running `aws iam list-users --profile nobleprog`. You should at least see the admin user you created in step 1.
 ```bash
-$ aws iam list-users --profile asmigar
+$ aws iam list-users --profile nobleprog
 {
     "Users": [
         {
@@ -49,8 +49,8 @@ cd remote_state; terraform init; terraform apply --auto-approve
 Outputs:
 
 terraform_state_bucket_name = [
-"asmigar-<env1>create-nginx-terraform-state-<aws_account_id>", 
-"asmigar-<env2>create-nginx-terraform-state-[aws_account_id]"
+"nobleprog-<env1>create-nginx-terraform-state-<aws_account_id>", 
+"nobleprog-<env2>create-nginx-terraform-state-[aws_account_id]"
 ```
 
 ## Create Infra
