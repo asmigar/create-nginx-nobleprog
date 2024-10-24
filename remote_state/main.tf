@@ -3,10 +3,11 @@ provider "aws" {
   profile = var.organisation
   default_tags {
     tags = {
-      Organisation = "Asmigar"
+      Organisation = var.organisation
     }
   }
 }
+
 
 data "aws_caller_identity" "current" {}
 
@@ -29,6 +30,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
       sse_algorithm = "AES256"
     }
   }
+
 }
 
 # Enable versioning so we can see the full revision history of our state files
