@@ -1,2 +1,2 @@
-organisation = "asmigar"
-envs         = ["dev", "prod"]
+organisation = "nobleprog"
+envs         = ["dev"]
