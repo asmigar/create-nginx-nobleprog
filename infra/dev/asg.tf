@@ -37,8 +37,8 @@ resource "aws_launch_template" "nginx" {
 resource "aws_autoscaling_group" "nginx" {
   name_prefix         = "nginx"
   max_size            = 3
-  min_size            = 2
-  vpc_zone_identifier = aws_subnet.public[*].id
+  min_size = 2
+  vpc_zone_identifier = module.aws_networks.subnet_ids
 
   launch_template {
     id      = aws_launch_template.nginx.id
@@ -46,15 +46,20 @@ resource "aws_autoscaling_group" "nginx" {
   }
 
   tag {
-    key                 = "name"
+    key                 = "Name"
     value               = "nginx"
     propagate_at_launch = true
   }
 
   tag {
     key                 = "env"
-    value               = "dev"
+    value               = var.env
     propagate_at_launch = true
   }
 
+  tag {
+    key                 = "organisation"
+    value               = var.organisation
+    propagate_at_launch = true
+  }
 }
