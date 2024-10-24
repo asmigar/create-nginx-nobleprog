@@ -11,7 +11,7 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "terraform_state" {
-  count  = 2
+  count  = length(var.envs)
   bucket = "${var.organisation}-${var.envs[count.index]}-create-nginx-terraform-state-${data.aws_caller_identity.current.account_id}"
 
   # Prevent accidental deletion of this S3 bucket
@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "terraform_state" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" {
-  count  = 2
+  count  = length(var.envs)
   bucket = aws_s3_bucket.terraform_state[count.index].id
 
   rule {
@@ -33,7 +33,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
 
 # Enable versioning so we can see the full revision history of our state files
 resource "aws_s3_bucket_versioning" "terraform_state" {
-  count  = 2
+  count  = length(var.envs)
   bucket = aws_s3_bucket.terraform_state[count.index].id
 
   versioning_configuration {
