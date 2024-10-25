@@ -1,15 +1,7 @@
 resource "aws_security_group" "allow_ssh" {
-  name        = "allow_tls"
+  name        = module.dev_nobleprog_alpha.id
   description = "Allow TLS inbound traffic"
   vpc_id      = module.aws_networks.vpc_id
-
-  ingress {
-    description     = "lb"
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.lb_sg.id]
-  }
 
   egress {
     from_port        = 0
@@ -23,4 +15,22 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     Name = "nginx"
   }
+}
+
+
+resource "aws_vpc_security_group_ingress_rule" "ssh_sg_ingress" {
+  security_group_id            = aws_security_group.allow_ssh.id
+  from_port                    = 22
+  to_port                      = 22
+  ip_protocol                  = "tcp"
+  cidr_ipv4 = "152.59.173.15/32"
+  description = "Sagar public ip"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "lb_sg_ingress" {
+  security_group_id            = aws_security_group.allow_ssh.id
+  from_port                    = 80
+  to_port                      = 80
+  ip_protocol                  = "tcp"
+  referenced_security_group_id = aws_security_group.lb_sg.id
 }

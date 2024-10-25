@@ -4,7 +4,7 @@ resource "tls_private_key" "this" {
 }
 
 resource "aws_key_pair" "this" {
-  key_name   = "${var.ssh_key_name}-${var.env}"
+  key_name   = module.dev_nobleprog_alpha.id
   public_key = tls_private_key.this.public_key_openssh
 
   provisioner "local-exec" {
