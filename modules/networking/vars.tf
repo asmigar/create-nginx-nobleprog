@@ -4,11 +4,11 @@ variable "vpc_cidr_block" {
 }
 
 variable "name" {
-  type = string
+  type    = string
   default = "main"
 }
 
 variable "additional_vpc_cidr_block" {
-  type = string
+  type    = string
   default = ""
 }

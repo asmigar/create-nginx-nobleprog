@@ -1,3 +1,3 @@
 organisation = "nobleprog"
-envs         = ["dev","prod"]
-region = "us-east-1"
+envs         = ["dev", "prod"]
+region       = "us-east-1"
