@@ -4,7 +4,7 @@ provider "aws" {
   default_tags {
     tags = {
       Organisation = var.organisation
-      Env = terraform.workspace
+      Env          = terraform.workspace
     }
   }
 }
@@ -12,10 +12,10 @@ provider "aws" {
 terraform {
 
   backend "s3" {
-    key    = "terraform.tfstate"
-#    bucket = "nobleprog-dev-create-nginx-terraform-state-650251710828"
-    region = "us-east-1"
-    profile = "nobleprog"
+    key = "terraform.tfstate"
+    #    bucket = "nobleprog-dev-create-nginx-terraform-state-650251710828"
+    region         = "us-east-1"
+    profile        = "nobleprog"
     dynamodb_table = "create-nginx-state-locks"
   }
 }

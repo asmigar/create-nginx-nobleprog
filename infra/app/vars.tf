@@ -28,7 +28,7 @@ variable "env" {
 }
 
 variable "additional_vpc_cidr_block" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "add additional cidr blocks to vpc"
 }

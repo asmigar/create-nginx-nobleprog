@@ -19,12 +19,12 @@ resource "aws_security_group" "allow_ssh" {
 
 
 resource "aws_vpc_security_group_ingress_rule" "ssh_sg_ingress" {
-  security_group_id            = aws_security_group.allow_ssh.id
-  from_port                    = 22
-  to_port                      = 22
-  ip_protocol                  = "tcp"
-  cidr_ipv4 = "152.59.173.15/32"
-  description = "Sagar public ip"
+  security_group_id = aws_security_group.allow_ssh.id
+  from_port         = 22
+  to_port           = 22
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "152.59.173.15/32"
+  description       = "Sagar public ip"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "lb_sg_ingress" {

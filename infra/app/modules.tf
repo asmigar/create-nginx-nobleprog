@@ -1,15 +1,15 @@
 module "aws_networks" {
   source = "../../modules/networking"
 
-  name = module.nobleprog_alpha.id
+  name                      = module.nobleprog_alpha.id
   additional_vpc_cidr_block = var.additional_vpc_cidr_block
 }
 
 module "nobleprog_alpha" {
-  source   = "cloudposse/label/null"
+  source = "cloudposse/label/null"
 
-  name = "nginx"
+  name      = "nginx"
   namespace = var.organisation
-  stage      = terraform.workspace
-  delimiter  = "-"
+  stage     = terraform.workspace
+  delimiter = "-"
 }
