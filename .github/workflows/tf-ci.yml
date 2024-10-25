@@ -23,3 +23,13 @@ jobs:
       - name: Validate
         run: terraform init -backend=false; terraform validate
         working-directory: ./infra/app
+
+  plan:
+    runs-on: ubuntu-latest
+    needs:
+      - validate
+    steps:
+      - uses: actions/checkout@v4
+      - name: plan
+        run: terraform workspace select dev; terraform init -backend-config=./dev.s3.tfbackend; terraform plan --var-file dev.terraform.tfvars
+        working-directory: ./infra/app
