@@ -8,6 +8,10 @@ on:
     tags:
       - '*'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   format:
     runs-on: ubuntu-latest
@@ -30,6 +34,12 @@ jobs:
       - validate
     steps:
       - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
       - name: terraform init
         run: terraform init -backend-config=./dev.s3.tfbackend
         working-directory: ./infra/app
