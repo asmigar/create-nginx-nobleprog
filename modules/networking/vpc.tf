@@ -8,8 +8,14 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "main"
+    Name = var.name
   }
+}
+
+resource "aws_vpc_ipv4_cidr_block_association" "additional_cidr" {
+  count = var.additional_vpc_cidr_block == "" ? 0 : 1
+  vpc_id     = aws_vpc.main.id
+  cidr_block = var.additional_vpc_cidr_block
 }
 
 resource "aws_internet_gateway" "igw" {

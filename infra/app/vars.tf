@@ -1,6 +1,6 @@
 variable "vpc_cidr_block" {
   type    = string
-  default = "10.0.0.0/16"
+  default = "10.1.0.0/16"
 }
 
 variable "ssh_key_name" {
@@ -25,4 +25,10 @@ variable "env" {
   type        = string
   default     = "dev"
   description = "environment e.g. dev|qa|prod"
+}
+
+variable "additional_vpc_cidr_block" {
+  type = string
+  default = ""
+  description = "add additional cidr blocks to vpc"
 }
