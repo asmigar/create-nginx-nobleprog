@@ -32,3 +32,8 @@ variable "additional_vpc_cidr_block" {
   default     = ""
   description = "add additional cidr blocks to vpc"
 }
+
+variable "instance_type" {
+  type = string
+  default = "t2.micro"
+}
