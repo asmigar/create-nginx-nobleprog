@@ -26,7 +26,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up" {
 resource "aws_launch_template" "nginx" {
   name_prefix   = module.nobleprog_alpha.id
   image_id      = "ami-0c101f26f147fa7fd"
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
 
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   key_name               = aws_key_pair.this.key_name

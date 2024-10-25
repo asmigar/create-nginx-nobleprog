@@ -16,3 +16,10 @@ jobs:
       - name: Format
         run: terraform fmt --check --diff --recursive
 
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate
+        run: terraform validate
+        working-directory: ./infra/app
