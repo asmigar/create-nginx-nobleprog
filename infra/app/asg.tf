@@ -37,7 +37,7 @@ resource "aws_launch_template" "nginx" {
 resource "aws_autoscaling_group" "nginx" {
   name_prefix         = module.nobleprog_alpha.id
   max_size            = 3
-  min_size            = 2
+  min_size = 2
   vpc_zone_identifier = module.aws_networks.subnet_ids
 
   launch_template {
