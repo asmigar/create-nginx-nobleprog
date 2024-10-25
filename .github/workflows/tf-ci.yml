@@ -30,6 +30,12 @@ jobs:
       - validate
     steps:
       - uses: actions/checkout@v4
-      - name: plan
-        run: terraform workspace select dev; terraform init -backend-config=./dev.s3.tfbackend -reconfigure; terraform plan --var-file dev.terraform.tfvars
+      - name: select the workspace
+        run: terraform workspace select dev;
+        working-directory: ./infra/app
+      - name: terraform init
+        run: terraform init -backend-config=./dev.s3.tfbackend
+        working-directory: ./infra/app
+      - name: terraform plan
+        run: terraform plan --var-file dev.terraform.tfvars
         working-directory: ./infra/app
