@@ -1,5 +1,5 @@
 resource "aws_autoscaling_policy" "scale_up_nginx" {
-  name                   = module.dev_nobleprog_alpha.id
+  name                   = module.nobleprog_alpha.id
   autoscaling_group_name = aws_autoscaling_group.nginx.name
   adjustment_type        = "ChangeInCapacity"
   scaling_adjustment     = 1
@@ -24,7 +24,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up" {
 }
 
 resource "aws_launch_template" "nginx" {
-  name_prefix   = module.dev_nobleprog_alpha.id
+  name_prefix   = module.nobleprog_alpha.id
   image_id      = "ami-0c101f26f147fa7fd"
   instance_type = "t2.micro"
 
@@ -35,7 +35,7 @@ resource "aws_launch_template" "nginx" {
 }
 
 resource "aws_autoscaling_group" "nginx" {
-  name_prefix         = module.dev_nobleprog_alpha.id
+  name_prefix         = module.nobleprog_alpha.id
   max_size            = 3
   min_size = 2
   vpc_zone_identifier = module.aws_networks.subnet_ids

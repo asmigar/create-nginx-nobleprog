@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh" {
-  name        = module.dev_nobleprog_alpha.id
+  name        = module.nobleprog_alpha.id
   description = "Allow TLS inbound traffic"
   vpc_id      = module.aws_networks.vpc_id
 

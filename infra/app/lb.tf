@@ -23,7 +23,7 @@ resource "aws_vpc_security_group_egress_rule" "lb_sg_egress" {
 
 
 resource "aws_alb" "nginx_alb" {
-  name               = module.dev_nobleprog_alpha.id
+  name               = module.nobleprog_alpha.id
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.lb_sg.id]
@@ -34,7 +34,7 @@ resource "aws_alb" "nginx_alb" {
 }
 
 resource "aws_alb_target_group" "nginx" {
-  name     = module.dev_nobleprog_alpha.id
+  name     = module.nobleprog_alpha.id
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.aws_networks.vpc_id

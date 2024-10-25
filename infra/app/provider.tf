@@ -4,6 +4,7 @@ provider "aws" {
   default_tags {
     tags = {
       Organisation = var.organisation
+      Env = terraform.workspace
     }
   }
 }
