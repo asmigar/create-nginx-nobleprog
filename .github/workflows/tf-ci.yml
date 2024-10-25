@@ -49,3 +49,26 @@ jobs:
       - name: terraform plan
         run: terraform plan --var-file dev.terraform.tfvars
         working-directory: ./infra/app
+
+  apply:
+    runs-on: ubuntu-latest
+    needs:
+      - plan
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT_ID}}:role/GithubAction
+      - name: terraform init
+        run: terraform init -backend-config=./dev.s3.tfbackend
+        working-directory: ./infra/app
+      - name: select the workspace
+        run: terraform workspace select dev;
+        working-directory: ./infra/app
+      - name: terraform apply
+        run: terraform apply --var-file dev.terraform.tfvars
+        working-directory: ./infra/app
